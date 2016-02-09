@@ -51,6 +51,21 @@
     
 }
 
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               if ( !error )
+                               {
+                                   UIImage *image = [[UIImage alloc] initWithData:data];
+                                   completionBlock(YES,image);
+                               } else{
+                                   completionBlock(NO,nil);
+                               }
+                           }];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -60,23 +75,24 @@
     NSString *pictureURL = [kBaseURLForImages stringByAppendingString:[[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"image"]];
     
     
+    
     // Start the fetch on a diffrenet queue from the main
     
-    __weak UITableViewController *weakSelf = self;
+    cell.imageView.image = [UIImage imageNamed:@"testimage"];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    UIActivityIndicatorView *loadingActivity = [self addSpinnerToView:cell.imageView];
 
-    dispatch_async(kBackGroundQueue, ^{
-         NSLog(@"%@ start to fetxh", pictureURL);
-        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString:pictureURL]];
-        if ( data == nil )
-            return;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // WARNING: is the cell still using the same data by this point??
-            cell.imageView.image = [UIImage imageWithData: data];
-            NSLog(@"%@ fetched", pictureURL);
-            [weakSelf.tableView reloadData];
-        });
-
-    });
+    // download the image asynchronously
+    [self downloadImageWithURL:[NSURL URLWithString:pictureURL] completionBlock:^(BOOL succeeded, UIImage *image) {
+        if (succeeded) {
+            // change the image in the cell
+            cell.imageView.image = image;
+            [loadingActivity stopAnimating];
+            [loadingActivity removeFromSuperview];
+            
+        }
+    }];
     
     cell.textLabel.text = [[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"name"];
     cell.detailTextLabel.text = [[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"description"];
@@ -85,6 +101,16 @@
     return cell;
 }
 
+
+#pragma mark - Cell actions
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+//    PMOCDMeal *meal = [self.fetchedResultController objectAtIndexPath:indexPath];
+
+    
+}
 
 #pragma mark - Helpers
 
@@ -114,5 +140,18 @@
     
 }
 
+#pragma mark - et Activity on view
+- (UIActivityIndicatorView *)addSpinnerToView:(UIView *)parentView {
+    UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc]
+                                                initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [loadingActivity setColor:[UIColor blackColor]];
+    [parentView addSubview:loadingActivity];
+    [parentView bringSubviewToFront:loadingActivity];
+    loadingActivity.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    loadingActivity.center = parentView.center;
+    [loadingActivity startAnimating];
+    
+    return loadingActivity;
+}
 
 @end
