@@ -10,8 +10,12 @@
 
 @implementation PMOPicture
 + (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails {
+    PMOPicture *picture = [[PMOPicture alloc] init];
     
+    [picture setImageDescription:[pictureDetails objectForKey:@"description"]];
+    [picture setImageFileName:[pictureDetails objectForKey:@"image"]];
+    [picture setImageTitle:[pictureDetails objectForKey:@"name"]];
     
-    return nil;
+    return picture;
 }
 @end

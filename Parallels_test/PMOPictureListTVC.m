@@ -12,9 +12,13 @@
 
 
 #import "PMOPictureListTVC.h"
+#import "PMOPictureViewController.h"
+#import "PMOPicture.h"
 
 @interface PMOPictureListTVC ()
-@property (strong, nonatomic) NSArray *pictureList;
+@property (strong, nonatomic) NSMutableArray *pictureList;
+@property (strong, nonatomic) PMOPicture *selectedPicture;
+
 @end
 
 @implementation PMOPictureListTVC
@@ -70,9 +74,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"PictureCell"];
-    
+    PMOPicture *picture = [self.pictureList objectAtIndex:indexPath.row];
 
-    NSString *pictureURL = [kBaseURLForImages stringByAppendingString:[[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"image"]];
+    NSString *pictureURL = [kBaseURLForImages stringByAppendingString:picture.imageFileName];
     
     
     
@@ -90,12 +94,13 @@
             cell.imageView.image = image;
             [loadingActivity stopAnimating];
             [loadingActivity removeFromSuperview];
+            picture.image = image;
             
         }
     }];
     
-    cell.textLabel.text = [[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"name"];
-    cell.detailTextLabel.text = [[self.pictureList objectAtIndex:indexPath.row] objectForKey:@"description"];
+    cell.textLabel.text = picture.imageTitle;
+    cell.detailTextLabel.text = picture.imageDescription;
 
     
     return cell;
@@ -105,12 +110,12 @@
 #pragma mark - Cell actions
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-//    PMOCDMeal *meal = [self.fetchedResultController objectAtIndexPath:indexPath];
-
-    
+    [self setSelectedPicture:self.pictureList[indexPath.row]];
+    [self performSegueWithIdentifier:@"ShowImage" sender:self];
+   
 }
+
+
 
 #pragma mark - Helpers
 
@@ -121,26 +126,20 @@
     NSArray *downloadedJSONData = [NSJSONSerialization JSONObjectWithData:dataInResponse
                                                                        options:0
                                                                          error:&error];
-    self.pictureList = downloadedJSONData;
-    NSLog(@"%@", self.pictureList);
+    self.pictureList = [[NSMutableArray alloc] init];
+    for (id currentItem in downloadedJSONData) {
+        PMOPicture *picture = [PMOPicture PictureFromDictionary:currentItem];
+        [self.pictureList addObject:picture];
+    }
+ 
      [self.tableView reloadData]; 
     
 }
 
--(void)fetchedPictureData:(NSData *)dataInResponse {
-    
-    NSError *error;
-    // Get the JSON data serialized
-    NSArray *downloadedJSONData = [NSJSONSerialization JSONObjectWithData:dataInResponse
-                                                                  options:0
-                                                                    error:&error];
-    self.pictureList = downloadedJSONData;
-    NSLog(@"%@", self.pictureList);
-    [self.tableView reloadData];
-    
-}
 
-#pragma mark - et Activity on view
+
+
+#pragma mark - Set Activity on view
 - (UIActivityIndicatorView *)addSpinnerToView:(UIView *)parentView {
     UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc]
                                                 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -153,5 +152,19 @@
     
     return loadingActivity;
 }
+
+
+#pragma mark - Custom actions
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+            if ([[segue identifier]  isEqual: @"ShowImage"]) {
+                PMOPictureViewController *pvc = segue.destinationViewController;
+                [pvc setPicture:self.selectedPicture];
+            }
+    
+}
+
+
 
 @end

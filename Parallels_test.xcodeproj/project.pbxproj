@@ -15,6 +15,8 @@
 		C7029EDC1C69136400DE1AC2 /* Parallels_testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EDB1C69136400DE1AC2 /* Parallels_testTests.m */; };
 		C7029EEA1C69252000DE1AC2 /* PMOPictureListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EE91C69252000DE1AC2 /* PMOPictureListTVC.m */; };
 		C7029EED1C69BA2700DE1AC2 /* PMOPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */; };
+		C7029EEF1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */; };
+		C7029EF81C6A8E6800DE1AC2 /* PMOPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,9 @@
 		C7029EE91C69252000DE1AC2 /* PMOPictureListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMOPictureListTVC.m; sourceTree = "<group>"; };
 		C7029EEB1C69BA2700DE1AC2 /* PMOPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMOPicture.h; sourceTree = "<group>"; };
 		C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMOPicture.m; sourceTree = "<group>"; };
+		C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard_ipad.storyboard; path = ../Storyboard_ipad.storyboard; sourceTree = "<group>"; };
+		C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMOPictureViewController.h; sourceTree = "<group>"; };
+		C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMOPictureViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +89,8 @@
 		C7029EC01C69136400DE1AC2 /* Parallels_test */ = {
 			isa = PBXGroup;
 			children = (
+				C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */,
+				C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */,
 				C7029EC41C69136400DE1AC2 /* AppDelegate.h */,
 				C7029EC51C69136400DE1AC2 /* AppDelegate.m */,
 				C7029EE81C69252000DE1AC2 /* PMOPictureListTVC.h */,
@@ -91,6 +98,7 @@
 				C7029EEB1C69BA2700DE1AC2 /* PMOPicture.h */,
 				C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */,
 				C7029ECA1C69136400DE1AC2 /* Main.storyboard */,
+				C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */,
 				C7029ECD1C69136400DE1AC2 /* Assets.xcassets */,
 				C7029ECF1C69136400DE1AC2 /* LaunchScreen.storyboard */,
 				C7029ED21C69136400DE1AC2 /* Info.plist */,
@@ -199,6 +207,7 @@
 				C7029ED11C69136400DE1AC2 /* LaunchScreen.storyboard in Resources */,
 				C7029ECE1C69136400DE1AC2 /* Assets.xcassets in Resources */,
 				C7029ECC1C69136400DE1AC2 /* Main.storyboard in Resources */,
+				C7029EEF1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +227,7 @@
 			files = (
 				C7029EC61C69136400DE1AC2 /* AppDelegate.m in Sources */,
 				C7029EC31C69136400DE1AC2 /* main.m in Sources */,
+				C7029EF81C6A8E6800DE1AC2 /* PMOPictureViewController.m in Sources */,
 				C7029EEA1C69252000DE1AC2 /* PMOPictureListTVC.m in Sources */,
 				C7029EED1C69BA2700DE1AC2 /* PMOPicture.m in Sources */,
 			);

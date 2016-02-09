@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Picture ListTVC-->
@@ -31,7 +32,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="fug-5l-En2" kind="show" id="RZ6-yC-pxd"/>
+                                    <segue destination="fug-5l-En2" kind="show" identifier="ShowImage" id="RZ6-yC-pxd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -46,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="1780" y="193"/>
         </scene>
-        <!--View Controller-->
+        <!--Picture View Controller-->
         <scene sceneID="Qa8-GO-aYq">
             <objects>
-                <viewController id="fug-5l-En2" sceneMemberID="viewController">
+                <viewController id="fug-5l-En2" customClass="PMOPictureViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bTs-ev-jsN"/>
                         <viewControllerLayoutGuide type="bottom" id="qci-gn-m7R"/>
@@ -57,12 +58,32 @@
                     <view key="view" contentMode="scaleToFill" id="RaG-EP-IZk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t94-wI-jX8">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCR-OR-uzc">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="t94-wI-jX8" firstAttribute="centerX" secondItem="RaG-EP-IZk" secondAttribute="centerX" id="MvW-zQ-kRg"/>
+                            <constraint firstItem="TCR-OR-uzc" firstAttribute="top" secondItem="bTs-ev-jsN" secondAttribute="bottom" id="SpK-I1-bx6"/>
+                            <constraint firstItem="t94-wI-jX8" firstAttribute="centerY" secondItem="RaG-EP-IZk" secondAttribute="centerY" id="W7C-4D-jav"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TCR-OR-uzc" secondAttribute="trailing" constant="-20" id="cZj-ym-z9Z"/>
+                            <constraint firstItem="qci-gn-m7R" firstAttribute="top" secondItem="TCR-OR-uzc" secondAttribute="bottom" id="dhp-q4-xnw"/>
+                            <constraint firstItem="TCR-OR-uzc" firstAttribute="leading" secondItem="RaG-EP-IZk" secondAttribute="leadingMargin" constant="-20" id="uAi-IP-nI7"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="TCR-OR-uzc" id="QEv-QF-Nba"/>
+                        <outlet property="spinner" destination="t94-wI-jX8" id="9pQ-Xc-CBh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9g-N3-zw0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2462" y="193"/>
+            <point key="canvasLocation" x="2466" y="193"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UHZ-aG-Eny">
