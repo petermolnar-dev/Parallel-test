@@ -9,12 +9,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "UIImage+Thumbnail.h"
 
 @interface PMOPicture : NSObject
 @property (strong,nonatomic) NSString *imageDescription;
 @property (strong,nonatomic) NSString *imageFileName;
 @property (strong,nonatomic) NSString *imageTitle;
 @property (strong,nonatomic) UIImage *image;
+@property (strong,nonatomic) UIImage *thumbnailImage;
 
 + (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails;
 

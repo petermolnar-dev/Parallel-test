@@ -17,6 +17,7 @@
 		C7029EED1C69BA2700DE1AC2 /* PMOPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */; };
 		C7029EEF1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */; };
 		C7029EF81C6A8E6800DE1AC2 /* PMOPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */; };
+		C7BE5ADE1C6B69120077498F /* UIImage+Thumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard_ipad.storyboard; path = ../Storyboard_ipad.storyboard; sourceTree = "<group>"; };
 		C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PMOPictureViewController.h; sourceTree = "<group>"; };
 		C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PMOPictureViewController.m; sourceTree = "<group>"; };
+		C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Thumbnail.h"; sourceTree = "<group>"; };
+		C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Thumbnail.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +92,8 @@
 		C7029EC01C69136400DE1AC2 /* Parallels_test */ = {
 			isa = PBXGroup;
 			children = (
+				C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */,
+				C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */,
 				C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */,
 				C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */,
 				C7029EC41C69136400DE1AC2 /* AppDelegate.h */,
@@ -225,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7BE5ADE1C6B69120077498F /* UIImage+Thumbnail.m in Sources */,
 				C7029EC61C69136400DE1AC2 /* AppDelegate.m in Sources */,
 				C7029EC31C69136400DE1AC2 /* main.m in Sources */,
 				C7029EF81C6A8E6800DE1AC2 /* PMOPictureViewController.m in Sources */,

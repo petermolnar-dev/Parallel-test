@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Dessert_normal.png",
+      "filename" : "PMDM-icon.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Dessert_normal-1.png",
+      "filename" : "PMDM-icon-1.jpg",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Dessert_normal-2.png",
+      "filename" : "PMDM-icon-2.jpg",
       "scale" : "3x"
     }
   ],

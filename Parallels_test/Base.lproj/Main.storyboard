@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Picture ListTVC-->
+        <!--Parallels Test-->
         <scene sceneID="T1K-L8-NMU">
             <objects>
                 <tableViewController id="N7l-z3-eg1" customClass="PMOPictureListTVC" sceneMemberID="viewController">
@@ -25,7 +25,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Omo-hq-law">
                                             <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -41,7 +41,7 @@
                             <outlet property="delegate" destination="N7l-z3-eg1" id="Kbh-ev-81X"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="cMZ-ts-LEq"/>
+                    <navigationItem key="navigationItem" title="Parallels Test" id="cMZ-ts-LEq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0dA-b5-usr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

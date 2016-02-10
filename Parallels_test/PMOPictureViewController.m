@@ -19,12 +19,16 @@
 
 @implementation PMOPictureViewController
 
+#pragma mark - View Controller Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setTitle:self.picture.imageTitle];
+    [self setTitle:[self.picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:self.picture.imageDescription]]];
     [self setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:self.picture.imageFileName]]];
     [self.scrollView addSubview:self.imageView];
 }
+
+#pragma mark - Accessors
 
 - (UIImageView *)imageView {
     
@@ -40,11 +44,11 @@
 -(void)setImage:(UIImage *)image {
     self.imageView.image = image;
     
-    self.scrollView.zoomScale = 1.0;
+    self.scrollView.zoomScale = 0.5;
     self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
     
-      [self.imageView sizeToFit];
+//      [self.imageView sizeToFit];
     
     [self.spinner stopAnimating];
 }
@@ -57,17 +61,35 @@
     _scrollView.delegate = self;
 }
 
+- (void)setImageURL:(NSURL *)imageURL {
+    
+    _imageURL = imageURL;
+    [self startDownloadingImage];
+    
+}
+
 #pragma mark - ScrollView delegate
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.imageView;
 }
 
-- (void)setImageURL:(NSURL *)imageURL {
+
+#pragma mark - Helpers
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
     
-    _imageURL = imageURL;
-    [self startDownloadingImage];
-    
+     dispatch_async(kBackGroundHighPriorityQueue, ^{
+       NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+        if (!error) {
+            UIImage *downloadedImage = [UIImage imageWithData:data];
+            completionBlock(YES,downloadedImage);
+        } else {
+            completionBlock(NO,nil);
+        }
+    });
 }
 
 -(void)startDownloadingImage {
@@ -76,11 +98,20 @@
     if (self.imageURL) {
         [self.spinner startAnimating];
         
-        if (!self.picture.image) {
-            NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
+        if (!self.picture.image) { // Image hasn't been downloaded yet
+            [self downloadImageWithURL:self.imageURL completionBlock:^(BOOL succeeded, UIImage *image) {
+                if (succeeded) {
+                    self.image = image;
+                    [self.spinner stopAnimating];
+                    self.picture.image = image;
+                }
+                dispatch_resume(kBackGroundNormalPriorityQueue);
+            }];
+
   
         } else {
             self.image = self.picture.image;
+            [self.spinner stopAnimating];
         }
         
     }
