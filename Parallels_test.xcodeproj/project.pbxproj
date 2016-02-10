@@ -92,21 +92,13 @@
 		C7029EC01C69136400DE1AC2 /* Parallels_test */ = {
 			isa = PBXGroup;
 			children = (
-				C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */,
-				C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */,
-				C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */,
-				C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */,
-				C7029EC41C69136400DE1AC2 /* AppDelegate.h */,
-				C7029EC51C69136400DE1AC2 /* AppDelegate.m */,
-				C7029EE81C69252000DE1AC2 /* PMOPictureListTVC.h */,
-				C7029EE91C69252000DE1AC2 /* PMOPictureListTVC.m */,
-				C7029EEB1C69BA2700DE1AC2 /* PMOPicture.h */,
-				C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */,
+				C7BE5AE11C6BE0C50077498F /* CustomClasses */,
+				C7BE5AE01C6BE0A30077498F /* ViewControllers */,
 				C7029ECA1C69136400DE1AC2 /* Main.storyboard */,
 				C7029EEE1C6A8A6A00DE1AC2 /* Storyboard_ipad.storyboard */,
-				C7029ECD1C69136400DE1AC2 /* Assets.xcassets */,
 				C7029ECF1C69136400DE1AC2 /* LaunchScreen.storyboard */,
 				C7029ED21C69136400DE1AC2 /* Info.plist */,
+				C7029ECD1C69136400DE1AC2 /* Assets.xcassets */,
 				C7029EC11C69136400DE1AC2 /* Supporting Files */,
 			);
 			path = Parallels_test;
@@ -115,6 +107,8 @@
 		C7029EC11C69136400DE1AC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C7029EC41C69136400DE1AC2 /* AppDelegate.h */,
+				C7029EC51C69136400DE1AC2 /* AppDelegate.m */,
 				C7029EC21C69136400DE1AC2 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -127,6 +121,28 @@
 				C7029EDD1C69136400DE1AC2 /* Info.plist */,
 			);
 			path = Parallels_testTests;
+			sourceTree = "<group>";
+		};
+		C7BE5AE01C6BE0A30077498F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C7029EF61C6A8E6800DE1AC2 /* PMOPictureViewController.h */,
+				C7029EF71C6A8E6800DE1AC2 /* PMOPictureViewController.m */,
+				C7029EE81C69252000DE1AC2 /* PMOPictureListTVC.h */,
+				C7029EE91C69252000DE1AC2 /* PMOPictureListTVC.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C7BE5AE11C6BE0C50077498F /* CustomClasses */ = {
+			isa = PBXGroup;
+			children = (
+				C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */,
+				C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */,
+				C7029EEB1C69BA2700DE1AC2 /* PMOPicture.h */,
+				C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */,
+			);
+			name = CustomClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
