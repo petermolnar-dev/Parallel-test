@@ -67,7 +67,7 @@
     
     
     if (!picture.thumbnailImage) {
-    // Start the fetch on a background Queue
+    // If not cached, start the fetch on a background Queue
     [self downloadImageWithURL:[NSURL URLWithString:pictureURL] completionBlock:^(BOOL succeeded, UIImage *image) {
         if (succeeded) {
             // change the image in the cell
@@ -165,7 +165,7 @@
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     cell.imageView.clipsToBounds = YES;
     
-    cell.imageView.image = [UIImage imageNamed:@"testimage"];
+    cell.imageView.image = [UIImage imageNamed:@"placeholder_image"];
     
     return cell;
     
@@ -180,7 +180,7 @@
 
 -(void)customizeImageView:(UIImageView *)currentImageView {
     // Get the image size,since it is already scaled for the device.
-    // Imageview sizes is sometimes 0, when it comes on a dequed cell and cached image
+    // Imageview size gives back sometimes 0, when it comes on a dequed/reused cell and cached image
     currentImageView.layer.cornerRadius = currentImageView.image.size.width/2;
     currentImageView.layer.borderColor = [UIColor colorWithRed:217.0/255 green:34.0/255 blue:49.0/255 alpha:1.0].CGColor;
     currentImageView.layer.borderWidth= 1.0f;

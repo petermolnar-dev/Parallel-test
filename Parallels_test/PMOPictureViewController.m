@@ -22,10 +22,24 @@
 #pragma mark - View Controller Lifecycle
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     [self setTitle:[self.picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:self.picture.imageDescription]]];
     [self setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:self.picture.imageFileName]]];
     [self.scrollView addSubview:self.imageView];
+    
+    
+}
+
+// Checking for device orientation change
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context)
+     {
+         [self updateScrollViewToPictureFit];
+     } completion:nil];
+    
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
 #pragma mark - Accessors
@@ -43,22 +57,24 @@
 
 -(void)setImage:(UIImage *)image {
     self.imageView.image = image;
-    
-    self.scrollView.zoomScale = 0.5;
+    self.scrollView.zoomScale = 1.0;
     self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
     
-//      [self.imageView sizeToFit];
+    [self updateScrollViewToPictureFit];
     
-    [self.spinner stopAnimating];
 }
 
 - (void)setScrollView:(UIScrollView *)scrollView {
+
     _scrollView = scrollView;
     
-    _scrollView.minimumZoomScale = 0.2;
+    _scrollView.minimumZoomScale = 0.02;
     _scrollView.maximumZoomScale = 2.0;
     _scrollView.delegate = self;
+    
+    //    Needs to set up, for the case whenself,image set before the scollview
+    self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
 }
 
 - (void)setImageURL:(NSURL *)imageURL {
@@ -71,6 +87,7 @@
 #pragma mark - ScrollView delegate
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    
     return self.imageView;
 }
 
@@ -80,8 +97,8 @@
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
 {
     
-     dispatch_async(kBackGroundHighPriorityQueue, ^{
-       NSError *error = nil;
+    dispatch_async(kBackGroundHighPriorityQueue, ^{
+        NSError *error = nil;
         NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
         if (!error) {
             UIImage *downloadedImage = [UIImage imageWithData:data];
@@ -96,24 +113,30 @@
     self.image = nil;
     
     if (self.imageURL) {
-        [self.spinner startAnimating];
-        
         if (!self.picture.image) { // Image hasn't been downloaded yet
+            [self.spinner setHidden:NO];
+            [self.spinner startAnimating];
             [self downloadImageWithURL:self.imageURL completionBlock:^(BOOL succeeded, UIImage *image) {
                 if (succeeded) {
                     self.image = image;
-                    [self.spinner stopAnimating];
                     self.picture.image = image;
+                    [self.spinner stopAnimating];
+                    [self.spinner setHidden:YES];
                 }
                 dispatch_resume(kBackGroundNormalPriorityQueue);
             }];
-
-  
         } else {
+            [self.spinner setHidden:YES];
             self.image = self.picture.image;
-            [self.spinner stopAnimating];
         }
-        
     }
 }
+
+- (void)updateScrollViewToPictureFit
+{
+    float minZoom = MIN(self.view.bounds.size.width / self.imageView.image.size.width, self.view.bounds.size.height / self.imageView.image.size.height);
+    self.scrollView.zoomScale=minZoom;
+
+}
+
 @end
