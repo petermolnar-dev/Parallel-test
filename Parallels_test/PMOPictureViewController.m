@@ -13,7 +13,7 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImageView *imageView;
-@property (nonatomic, strong) NSURL *imageURL;
+
 
 @end
 
@@ -24,14 +24,20 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    [self setTitle:[self.picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:self.picture.imageDescription]]];
-    [self setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:self.picture.imageFileName]]];
+  
     [self.scrollView addSubview:self.imageView];
-    
     
 }
 
-// Checking for device orientation change
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden)
+    {
+        [self showBackButtonOnSplitViewController];
+    }
+}
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context)
@@ -60,7 +66,7 @@
     self.scrollView.zoomScale = 1.0;
     self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
-    
+
     [self updateScrollViewToPictureFit];
     
 }
@@ -90,6 +96,23 @@
     
     return self.imageView;
 }
+
+#pragma mark - UISplitViewControllerDelegate
+
+
+- (void)awakeFromNib
+{
+    self.splitViewController.delegate = self;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+    willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+    
+    if (displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+        [self showBackButtonOnSplitViewController];
+    }
+}
+
 
 
 #pragma mark - Helpers
@@ -135,8 +158,18 @@
 - (void)updateScrollViewToPictureFit
 {
     float minZoom = MIN(self.view.bounds.size.width / self.imageView.image.size.width, self.view.bounds.size.height / self.imageView.image.size.height);
+    // Set back to self.scrollView.zoomScale=1.0; if they want to see the full image, in real size.
     self.scrollView.zoomScale=minZoom;
 
 }
+
+-(void)showBackButtonOnSplitViewController
+{
+    UIBarButtonItem *barButtonItem = self.splitViewController.displayModeButtonItem;
+    barButtonItem.title = @"Show List";
+    self.navigationItem.leftBarButtonItem = barButtonItem;
+
+}
+
 
 @end

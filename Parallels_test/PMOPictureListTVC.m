@@ -103,7 +103,21 @@
     dispatch_suspend(kBackGroundNormalPriorityQueue);
 
     [self setSelectedPicture:self.pictureList[indexPath.row]];
-    [self performSegueWithIdentifier:@"ShowImage" sender:self];
+    
+    // get the Detail view controller (if we are not on iPad it will be nil)
+    id detail = self.splitViewController.viewControllers[1];
+    // Check the root bnavigatior controller to find the proper view controller
+    if ([detail isKindOfClass:[UINavigationController class]]) {
+        detail = [((UINavigationController *)detail).viewControllers firstObject];
+    }
+    // last check if it is a PMOPictureViewController?
+    if ([detail isKindOfClass:[PMOPictureViewController class]]) {
+        [self preparePictureViewController:detail toShowPicture:self.selectedPicture];
+    } else {
+//        We are not on iPad, trigger the segue
+        [self performSegueWithIdentifier:@"ShowImage" sender:self];
+    }
+
 }
 
 
@@ -190,11 +204,17 @@
 
 #pragma mark - Navigation
 
+-(void)preparePictureViewController:(PMOPictureViewController *)pvc toShowPicture:(PMOPicture*)picture {
+    pvc.picture = picture;
+    [pvc setTitle:[picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:picture.imageDescription]]];
+    [pvc setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:picture.imageFileName]]];
+
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
             if ([[segue identifier]  isEqual: @"ShowImage"]) {
-                PMOPictureViewController *pvc = segue.destinationViewController;
-                [pvc setPicture:self.selectedPicture];
+                [self preparePictureViewController:segue.destinationViewController toShowPicture:self.selectedPicture];
             }
     
 }
