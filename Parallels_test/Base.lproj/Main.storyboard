@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Picture ListTVC-->
+        <!--Parallels Test-->
         <scene sceneID="T1K-L8-NMU">
             <objects>
                 <tableViewController id="N7l-z3-eg1" customClass="PMOPictureListTVC" sceneMemberID="viewController">
@@ -15,24 +15,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PictureCell" textLabel="Omo-hq-law" style="IBUITableViewCellStyleDefault" id="T2u-r0-Pp8">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PictureCell" textLabel="Omo-hq-law" style="IBUITableViewCellStyleDefault" id="T2u-r0-Pp8">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T2u-r0-Pp8" id="y8W-0d-xYz">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Omo-hq-law">
-                                            <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                            <rect key="frame" x="15" y="0.0" width="550" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="fug-5l-En2" kind="show" identifier="ShowImage" id="RZ6-yC-pxd"/>
+                                    <segue destination="fug-5l-En2" kind="show" identifier="ShowImage" id="BIA-Bo-Q0K"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -41,7 +41,7 @@
                             <outlet property="delegate" destination="N7l-z3-eg1" id="Kbh-ev-81X"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="cMZ-ts-LEq"/>
+                    <navigationItem key="navigationItem" title="Parallels Test" id="cMZ-ts-LEq"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0dA-b5-usr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -59,7 +59,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t94-wI-jX8">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="t94-wI-jX8">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCR-OR-uzc">
@@ -76,6 +76,7 @@
                             <constraint firstItem="TCR-OR-uzc" firstAttribute="leading" secondItem="RaG-EP-IZk" secondAttribute="leadingMargin" constant="-20" id="uAi-IP-nI7"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="vLV-ft-1oZ"/>
                     <connections>
                         <outlet property="scrollView" destination="TCR-OR-uzc" id="QEv-QF-Nba"/>
                         <outlet property="spinner" destination="t94-wI-jX8" id="9pQ-Xc-CBh"/>

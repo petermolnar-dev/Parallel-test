@@ -14,6 +14,7 @@
 #import "PMOPictureListTVC.h"
 #import "PMOPictureViewController.h"
 #import "PMOPicture.h"
+#import "UIImage+Thumbnail.h"
 
 @interface PMOPictureListTVC ()
 @property (strong, nonatomic) NSMutableArray *pictureList;
@@ -23,12 +24,15 @@
 
 @implementation PMOPictureListTVC
 
+
+#pragma mark - View Controller Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Start the fetch on a diffrenet queue from the main
+    // Start the fetch on a background Queue
     
-    dispatch_async(kBackGroundQueue, ^{
+    dispatch_async(kBackGroundNormalPriorityQueue, ^{
         NSData* data = [NSData dataWithContentsOfURL:
                         kDataURL];
         [self performSelectorOnMainThread:@selector(fetchedRowData:)
@@ -37,71 +41,57 @@
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
+#pragma mark - Table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Only one section for the list
+ 
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+ 
     return [self.pictureList count];
     
 }
 
-- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               if ( !error )
-                               {
-                                   UIImage *image = [[UIImage alloc] initWithData:data];
-                                   completionBlock(YES,image);
-                               } else{
-                                   completionBlock(NO,nil);
-                               }
-                           }];
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"PictureCell"];
+ 
     PMOPicture *picture = [self.pictureList objectAtIndex:indexPath.row];
-
+    
     NSString *pictureURL = [kBaseURLForImages stringByAppendingString:picture.imageFileName];
     
-    
-    
-    // Start the fetch on a diffrenet queue from the main
-    
-    cell.imageView.image = [UIImage imageNamed:@"testimage"];
-    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    UITableViewCell *cell= [self customizedCell];
     
     UIActivityIndicatorView *loadingActivity = [self addSpinnerToView:cell.imageView];
-
-    // download the image asynchronously
+    
+    
+    if (!picture.thumbnailImage) {
+    // If not cached, start the fetch on a background Queue
     [self downloadImageWithURL:[NSURL URLWithString:pictureURL] completionBlock:^(BOOL succeeded, UIImage *image) {
         if (succeeded) {
             // change the image in the cell
-            cell.imageView.image = image;
+            [self updateCellImageView:cell.imageView withDownloadedImage:image];
+            
             [loadingActivity stopAnimating];
             [loadingActivity removeFromSuperview];
+            // Caching the image and the thumbnail.
             picture.image = image;
+            picture.thumbnailImage = cell.imageView.image;
             
         }
     }];
+    } else {
+        cell.imageView.image = picture.thumbnailImage;
+        [self customizeImageView:cell.imageView];
+        [loadingActivity stopAnimating];
+        [loadingActivity removeFromSuperview];
+        
+    }
     
     cell.textLabel.text = picture.imageTitle;
     cell.detailTextLabel.text = picture.imageDescription;
-
+    
     
     return cell;
 }
@@ -110,9 +100,24 @@
 #pragma mark - Cell actions
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    dispatch_suspend(kBackGroundNormalPriorityQueue);
+
     [self setSelectedPicture:self.pictureList[indexPath.row]];
-    [self performSegueWithIdentifier:@"ShowImage" sender:self];
-   
+    
+    // get the Detail view controller (if we are not on iPad it will be nil)
+    id detail = self.splitViewController.viewControllers[1];
+    // Check the root bnavigatior controller to find the proper view controller
+    if ([detail isKindOfClass:[UINavigationController class]]) {
+        detail = [((UINavigationController *)detail).viewControllers firstObject];
+    }
+    // last check if it is a PMOPictureViewController?
+    if ([detail isKindOfClass:[PMOPictureViewController class]]) {
+        [self preparePictureViewController:detail toShowPicture:self.selectedPicture];
+    } else {
+//        We are not on iPad, trigger the segue
+        [self performSegueWithIdentifier:@"ShowImage" sender:self];
+    }
+
 }
 
 
@@ -136,10 +141,23 @@
     
 }
 
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
+{
+    
+    dispatch_async(kBackGroundNormalPriorityQueue, ^{
+        
+        NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+        if (!error) {
+            UIImage *downloadedImage = [UIImage imageWithData:data];
+            
+            completionBlock(YES,downloadedImage);
+        } else {
+            completionBlock(NO,nil);
+        }
+    });}
 
 
-
-#pragma mark - Set Activity on view
 - (UIActivityIndicatorView *)addSpinnerToView:(UIView *)parentView {
     UIActivityIndicatorView *loadingActivity = [[UIActivityIndicatorView alloc]
                                                 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -153,14 +171,50 @@
     return loadingActivity;
 }
 
+#pragma mark - Cell customizations
 
-#pragma mark - Custom actions
+- (UITableViewCell *)customizedCell {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"PictureCell"];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    cell.imageView.clipsToBounds = YES;
+    
+    cell.imageView.image = [UIImage imageNamed:@"placeholder_image"];
+    
+    return cell;
+    
+}
+
+- (void)updateCellImageView:(UIImageView *)imageView withDownloadedImage:(UIImage *)image
+{
+    imageView.image = [image makeThumbnailWithSize:imageView.frame.size];
+    [self customizeImageView:imageView];
+
+}
+
+-(void)customizeImageView:(UIImageView *)currentImageView {
+    // Get the image size,since it is already scaled for the device.
+    // Imageview size gives back sometimes 0, when it comes on a dequed/reused cell and cached image
+    currentImageView.layer.cornerRadius = currentImageView.image.size.width/2;
+    currentImageView.layer.borderColor = [UIColor colorWithRed:217.0/255 green:34.0/255 blue:49.0/255 alpha:1.0].CGColor;
+    currentImageView.layer.borderWidth= 1.0f;
+    
+ 
+}
+
+#pragma mark - Navigation
+
+-(void)preparePictureViewController:(PMOPictureViewController *)pvc toShowPicture:(PMOPicture*)picture {
+    pvc.picture = picture;
+    [pvc setTitle:[picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:picture.imageDescription]]];
+    [pvc setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:picture.imageFileName]]];
+
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
             if ([[segue identifier]  isEqual: @"ShowImage"]) {
-                PMOPictureViewController *pvc = segue.destinationViewController;
-                [pvc setPicture:self.selectedPicture];
+                [self preparePictureViewController:segue.destinationViewController toShowPicture:self.selectedPicture];
             }
     
 }
