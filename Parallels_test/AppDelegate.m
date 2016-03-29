@@ -16,7 +16,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    NSDictionary *settingsForATS = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSAppTransportSecurity"];
+    if ([settingsForATS count] > 0) {
+        for (id curKey in settingsForATS) {
+            if ([curKey  isEqual:  @"NSAllowsArbitraryLoads"] && settingsForATS[curKey]) {
+                NSLog(@"Warning! App Transport security is switched off!");
+            }
+        }
+    }
     return YES;
 }
 
