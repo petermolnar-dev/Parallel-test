@@ -83,9 +83,8 @@
     self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
 }
 
-- (void)setImageURL:(NSURL *)imageURL {
+- (void)setPicture:(PMOPicture *)picture{
     
-    _imageURL = imageURL;
     [self startDownloadingImage];
     
 }
@@ -135,11 +134,11 @@
 -(void)startDownloadingImage {
     self.image = nil;
     
-    if (self.imageURL) {
+    if (self.picture.imageURL) {
         if (!self.picture.image) { // Image hasn't been downloaded yet
             [self.spinner setHidden:NO];
             [self.spinner startAnimating];
-            [self downloadImageWithURL:self.imageURL completionBlock:^(BOOL succeeded, UIImage *image) {
+            [self downloadImageWithURL:self.picture.imageURL completionBlock:^(BOOL succeeded, UIImage *image) {
                 if (succeeded) {
                     self.image = image;
                     self.picture.image = image;

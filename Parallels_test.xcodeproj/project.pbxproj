@@ -92,6 +92,9 @@
 		C7029EC01C69136400DE1AC2 /* Parallels_test */ = {
 			isa = PBXGroup;
 			children = (
+				C7F98D191CB1917000BBF341 /* Managers */,
+				C7F98D181CB1916A00BBF341 /* Models */,
+				C7F98D171CB1914F00BBF341 /* Categories */,
 				C7BE5AE11C6BE0C50077498F /* CustomClasses */,
 				C7BE5AE01C6BE0A30077498F /* ViewControllers */,
 				C7029ECA1C69136400DE1AC2 /* Main.storyboard */,
@@ -137,12 +140,33 @@
 		C7BE5AE11C6BE0C50077498F /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
-				C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */,
-				C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */,
 				C7029EEB1C69BA2700DE1AC2 /* PMOPicture.h */,
 				C7029EEC1C69BA2700DE1AC2 /* PMOPicture.m */,
 			);
 			name = CustomClasses;
+			sourceTree = "<group>";
+		};
+		C7F98D171CB1914F00BBF341 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C7BE5ADC1C6B69120077498F /* UIImage+Thumbnail.h */,
+				C7BE5ADD1C6B69120077498F /* UIImage+Thumbnail.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		C7F98D181CB1916A00BBF341 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C7F98D191CB1917000BBF341 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +218,7 @@
 				TargetAttributes = {
 					C7029EBD1C69136400DE1AC2 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 3YBS3Y2WC7;
 					};
 					C7029ED61C69136400DE1AC2 = {
 						CreatedOnToolsVersion = 7.2;
@@ -379,11 +404,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Parallels_test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hu.petermolnar.Parallels-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -392,11 +420,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Parallels_test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "hu.petermolnar.Parallels-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

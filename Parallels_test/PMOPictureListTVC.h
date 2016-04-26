@@ -7,7 +7,8 @@
 //
 
 #define kBackGroundNormalPriorityQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-#define kDataURL [NSURL URLWithString:@"http://93.175.29.76/web/wwdc/items.json"]
+#define kDataBaseURL @"http://93.175.29.76/web/wwdc/"
+#define kDataURL [NSURL URLWithString:[kDataBaseURL stringByAppendingString:@"items.json"]]
 
 
 #import <UIKit/UIKit.h>

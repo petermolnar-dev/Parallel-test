@@ -15,9 +15,10 @@
 @property (strong,nonatomic) NSString *imageDescription;
 @property (strong,nonatomic) NSString *imageFileName;
 @property (strong,nonatomic) NSString *imageTitle;
+@property (strong,nonatomic) NSURL *imageURL;
 @property (strong,nonatomic) UIImage *image;
 @property (strong,nonatomic) UIImage *thumbnailImage;
 
-+ (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails;
++ (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails baseURLAsStringForImage:(NSString *)baseURLAsString;
 
 @end

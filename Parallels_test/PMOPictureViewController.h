@@ -16,5 +16,5 @@
 @interface PMOPictureViewController : UIViewController
 
 @property (nonatomic, strong) PMOPicture *picture;
-@property (nonatomic, strong) NSURL *imageURL;
+
 @end

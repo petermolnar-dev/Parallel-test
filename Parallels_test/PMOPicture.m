@@ -9,13 +9,20 @@
 #import "PMOPicture.h"
 
 @implementation PMOPicture
-+ (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails {
+
++ (instancetype)PictureFromDictionary:(NSDictionary *)pictureDetails baseURLAsStringForImage:(NSString *)baseURLAsString {
     PMOPicture *picture = [[PMOPicture alloc] init];
     
     [picture setImageDescription:[pictureDetails objectForKey:@"description"]];
     [picture setImageFileName:[pictureDetails objectForKey:@"image"]];
     [picture setImageTitle:[pictureDetails objectForKey:@"name"]];
+    // Check if the URL ends with slash (/) character.
+    if (![[baseURLAsString substringFromIndex:[baseURLAsString length]-1] isEqual:@"/"]) {
+        baseURLAsString= [baseURLAsString stringByAppendingString:@"/"];
+    }
+    [picture setImageURL:[NSURL URLWithString:[baseURLAsString stringByAppendingString:picture.imageFileName]]];
     
     return picture;
 }
+
 @end

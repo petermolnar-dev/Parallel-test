@@ -133,7 +133,7 @@
                                                                          error:&error];
     self.pictureList = [[NSMutableArray alloc] init];
     for (id currentItem in downloadedJSONData) {
-        PMOPicture *picture = [PMOPicture PictureFromDictionary:currentItem];
+        PMOPicture *picture = [PMOPicture PictureFromDictionary:currentItem baseURLAsStringForImage:kDataBaseURL];
         [self.pictureList addObject:picture];
     }
  
@@ -207,7 +207,6 @@
 -(void)preparePictureViewController:(PMOPictureViewController *)pvc toShowPicture:(PMOPicture*)picture {
     pvc.picture = picture;
     [pvc setTitle:[picture.imageTitle stringByAppendingString:[@" - " stringByAppendingString:picture.imageDescription]]];
-    [pvc setImageURL:[NSURL URLWithString:[kBaseURLForImages stringByAppendingString:picture.imageFileName]]];
 
 }
 
